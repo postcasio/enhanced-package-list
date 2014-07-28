@@ -1,0 +1,13 @@
+{
+  "name": "enhanced-package-list",
+  "main": "./lib/enhanced-package-list",
+  "version": "0.0.0",
+  "description": "Adds an icon to bundled packages and fades out disabled packages in the settings view.",
+  "repository": "https://github.com/postcasio/enhanced-package-list",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
