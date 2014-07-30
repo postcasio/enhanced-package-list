@@ -56,6 +56,12 @@ module.exports =
 			else
 				list_item.removeClass('disabled-package')
 
+			if metadata = atom.packages.getLoadedPackage(name)
+				if metadata.isCompatible and not metadata.isCompatible()
+					list_item.addClass('incompatible-package')
+				else
+					list_item.removeClass('incompatible-package')
+
 		@packagesChanged = false
 
 		return
