@@ -3,7 +3,13 @@ module.exports =
 	itemChangedSubscription: null
 	itemRemovedSubscription: null
 	disabledPackagesSubscription: null
+	confSubscription: null
+
+	highlightAuthor: null
 	packagesChanged: true
+
+	configDefaults:
+		highlightAuthor: ''
 
 	activate: (state) ->
 		$ = require('atom').$
@@ -22,13 +28,21 @@ module.exports =
 		@disabledPackagesSubscription = atom.config.observe 'core.disabledPackages', callNow: false, (disabledPackages, {previous}) =>
 			@packagesChanged = true
 
-			if @settingsView.is ':visible'
+			if @settingsView and @settingsView.is ':visible'
+				@updatePackageClasses()
+
+		@confSubscription = atom.config.observe 'enhanced-package-list.highlightAuthor', (author) =>
+			@packagesChanged = true
+
+			@highlightAuthor = author
+			if @settingsView and @settingsView.is ':visible'
 				@updatePackageClasses()
 
 	deactivate: ->
 		@itemAddedSubscription?.off()
 		@itemRemovedSubscription?.off()
 		@disabledPackagesSubscription?.off()
+		@confSubscription?.off()
 
 	settingsViewActive: (@settingsView) ->
 		@updatePackageClasses @settingsView
@@ -61,6 +75,13 @@ module.exports =
 					list_item.addClass('incompatible-package')
 				else
 					list_item.removeClass('incompatible-package')
+			console.log @highlightAuthor
+			console.log list_item.find('.package-author').text()
+			if @highlightAuthor and list_item.find('.package-author').text() is @highlightAuthor
+				list_item.addClass('author-highlight')
+			else
+				list_item.removeClass('author-highlight')
+
 
 		@packagesChanged = false
 

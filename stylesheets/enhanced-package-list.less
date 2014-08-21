@@ -1,4 +1,6 @@
-.settings-view .panels-packages {
+@import 'ui-variables';
+
+.settings-view .config-menu .panels-packages {
 	.bundled-package .icon > span:first-child:before {
 		font-family: "Octicons Regular";
 		content: "\f00a";
@@ -13,5 +15,17 @@
 
 	.disabled-package {
 		opacity: 0.5;
+	}
+
+	> li.author-highlight > a {
+		color: @text-color-highlight;
+
+		&:hover {
+			color: @text-color-highlight;
+		}
+
+		.package-author {
+			color: @text-color-highlight;
+		}
 	}
 }
