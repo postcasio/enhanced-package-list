@@ -75,8 +75,7 @@ module.exports =
 					list_item.addClass('incompatible-package')
 				else
 					list_item.removeClass('incompatible-package')
-			console.log @highlightAuthor
-			console.log list_item.find('.package-author').text()
+
 			if @highlightAuthor and list_item.find('.package-author').text() is @highlightAuthor
 				list_item.addClass('author-highlight')
 			else
