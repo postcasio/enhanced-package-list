@@ -7,13 +7,13 @@ module.exports =
 
 	highlightAuthor: null
 	packagesChanged: true
+	sourceFilter: 'all'
 
 	configDefaults:
 		highlightAuthor: ''
+		sourceFilter: 'all'
 
 	activate: (state) ->
-		$ = require('atom').$
-
 		@itemChangedSubscription = atom.workspaceView.on 'pane:active-item-changed', (e, item) =>
 			if item.is? '.settings-view'
 				@settingsViewActive(item)
@@ -23,7 +23,6 @@ module.exports =
 
 			if item.is? '.settings-view'
 				@settingsViewRemoved()
-
 
 		@disabledPackagesSubscription = atom.config.observe 'core.disabledPackages', callNow: false, (disabledPackages, {previous}) =>
 			@packagesChanged = true
@@ -38,13 +37,60 @@ module.exports =
 			if @settingsView and @settingsView.is ':visible'
 				@updatePackageClasses()
 
+		@filterConfSubscription = atom.config.observe 'enhanced-package-list.sourceFilter', (filter) =>
+			@sourceFilter = filter
+
 	deactivate: ->
 		@itemAddedSubscription?.off()
 		@itemRemovedSubscription?.off()
 		@disabledPackagesSubscription?.off()
 		@confSubscription?.off()
+		@filterConfSubscription?.off()
 
 	settingsViewActive: (@settingsView) ->
+		unless @settingsView.hasClass('enhanced-package-list')
+			{$, $$} = require('atom')
+			path = require 'path'
+			_ = require path.join atom.packages.resourcePath, 'node_modules', 'underscore-plus'
+			fuzzaldrin = require path.join atom.packages.resourcePath, 'node_modules', 'fuzzaldrin'
+
+			filter = $$ ->
+				@div class: 'package-source-filter', =>
+					@div class: 'btn-group', =>
+						@button 'data-source': 'all', class: 'btn', 'All'
+						@button 'data-source': 'core', class: 'btn', 'Core'
+						@button 'data-source': 'user', class: 'btn', 'User'
+
+			filter.find('[data-source=' + @sourceFilter + ']').addClass 'selected'
+
+			filter.on 'click', '.btn', (e) =>
+				btn = $(e.target)
+				atom.config.set 'enhanced-package-list.sourceFilter', btn.attr 'data-source'
+				filter.find('.selected').removeClass 'selected'
+				btn.addClass 'selected'
+				@settingsView.filterPackages()
+
+			@settingsView.find('.settings-filter').before filter
+
+			thisPackage = this
+
+			@settingsView.filterPackages = ->
+				filterText = @filterEditor.getEditor().getText()
+				all = _.map @panelPackages.children(), (item) ->
+					element: $(item)
+					text: $(item).text()
+				active = fuzzaldrin.filter(all, filterText, key: 'text')
+
+				unless thisPackage.sourceFilter is 'all'
+					active = _.filter active, (item) ->
+						bundled = item.element.hasClass 'bundled-package'
+						return if thisPackage.sourceFilter is 'core' then bundled else not bundled
+
+				_.each all, ({element}) -> element.hide()
+				_.each active, ({element}) -> element.show()
+
+			@settingsView.addClass('enhanced-package-list')
+
 		@updatePackageClasses @settingsView
 
 	settingsViewRemoved: ->
@@ -81,7 +127,7 @@ module.exports =
 			else
 				list_item.removeClass('author-highlight')
 
-
+		@settingsView.filterPackages()
 		@packagesChanged = false
 
 		return
