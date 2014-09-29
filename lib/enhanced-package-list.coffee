@@ -54,6 +54,7 @@ module.exports =
 			if @originalFilter
 				@settingsView.filterPackages = @originalFilter
 			@settingsView.removeClass 'enhanced-package-list'
+			@settingsView.filterPackages()
 
 
 	settingsViewActive: (@settingsView) ->
