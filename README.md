@@ -1,5 +1,7 @@
-# enhanced-package-list package
+# Enhanced Package List
 
-Adds an icon to bundled packages and fades out disabled packages in the settings view.
+Adds icons, highlights and a package source filter (All/Core/User/Author) to your settings view.
 
-Uses CSS classes 'bundled-package' and 'disabled-package'
+* Core: Packages bundled with Atom
+* User: Packages you have installed
+* Author: Packages you have authored
