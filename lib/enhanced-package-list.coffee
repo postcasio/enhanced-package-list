@@ -117,7 +117,7 @@ module.exports =
 			list_item = @settingsView.find(".panels-packages [name=#{name}]")
 			metadata = atom.packages.getLoadedPackage(name)
 			highlight = @highlightAuthor isnt '' and list_item.find('.package-author').text() is @highlightAuthor
-			anyAuthorHighlighted |= highlight
+			anyAuthorHighlighted ||= highlight
 
 			list_item.toggleClass 'bundled-package', atom.packages.isBundledPackage(name)
 			list_item.toggleClass 'disabled-package', atom.packages.isPackageDisabled(name)
