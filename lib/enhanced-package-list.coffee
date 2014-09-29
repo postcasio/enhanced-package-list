@@ -83,7 +83,7 @@ module.exports =
 				@settingsView.filterPackages()
 
 			@settingsView.find('.settings-filter').before filter
-
+			@originalFilter = @settingsView.filterPackages
 			@settingsView.filterPackages = ->
 				filterText = @filterEditor.getEditor().getText()
 				all = _.map @panelPackages.children(), (item) ->
