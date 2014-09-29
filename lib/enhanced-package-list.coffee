@@ -116,12 +116,12 @@ module.exports =
 		for name in names
 			list_item = @settingsView.find(".panels-packages [name=#{name}]")
 			metadata = atom.packages.getLoadedPackage(name)
-			highlight = @highlightAuthor and list_item.find('.package-author').text() is @highlightAuthor
+			highlight = @highlightAuthor isnt '' and list_item.find('.package-author').text() is @highlightAuthor
 			anyAuthorHighlighted |= highlight
 
 			list_item.toggleClass 'bundled-package', atom.packages.isBundledPackage(name)
 			list_item.toggleClass 'disabled-package', atom.packages.isPackageDisabled(name)
-			list_item.toggleClass 'incompatible-package', metadata and (metadata.isCompatible and not metadata.isCompatible())
+			list_item.toggleClass 'incompatible-package', metadata? and (metadata.isCompatible and not metadata.isCompatible())
 			list_item.toggleClass 'author-highlight', highlight
 
 		@settingsView.filterPackages()
