@@ -35,7 +35,23 @@
 	.btn-group {
 		width: 100%;
 		.btn {
-			width: (100% / 3);
+			width: calc(~"(100% / 3) + 1px");
+			&:nth-child(2) {
+				width: 100% / 3;
+			}
+			&:last-child {
+				display: none;
+			}
+		}
+	}
+	&.with-author .btn-group .btn {
+		width: calc(~"(100% / 4) + 1px");
+		&:nth-child(2) {
+			width: calc(~"(100% / 4) + 1px");
+		}
+		&:last-child {
+			width: 100% / 4;
+			display: block;
 		}
 	}
 }
