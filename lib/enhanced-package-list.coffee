@@ -9,6 +9,7 @@ module.exports =
 	packagesChanged: true
 	sourceFilter: 'all'
 	filter: null
+	originalFilter: null
 
 	configDefaults:
 		highlightAuthor: ''
@@ -47,6 +48,13 @@ module.exports =
 		@disabledPackagesSubscription?.off()
 		@confSubscription?.off()
 		@filterConfSubscription?.off()
+		if @filter
+			@filter.remove()
+		if @settingsView
+			if @originalFilter
+				@settingsView.filterPackages = @originalFilter
+			@settingsView.removeClass 'enhanced-package-list'
+
 
 	settingsViewActive: (@settingsView) ->
 		unless @settingsView.hasClass('enhanced-package-list')
