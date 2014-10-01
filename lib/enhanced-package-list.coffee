@@ -11,9 +11,15 @@ module.exports =
 	filter: null
 	originalFilter: null
 
-	configDefaults:
-		highlightAuthor: ''
-		sourceFilter: 'all'
+	config:
+		highlightAuthor:
+			default: ''
+			type: 'string'
+
+		sourceFilter:
+			default: 'all'
+			type: 'string'
+			enum: ['all', 'core', 'user', 'author']
 
 	activate: (state) ->
 		@itemChangedSubscription = atom.workspaceView.on 'pane:active-item-changed', (e, item) =>
