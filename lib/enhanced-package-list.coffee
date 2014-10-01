@@ -26,7 +26,7 @@ module.exports =
 			if item.is? '.settings-view'
 				@settingsViewRemoved()
 
-		@disabledPackagesSubscription = atom.config.observe 'core.disabledPackages', (disabledPackages, {previous}) =>
+		@disabledPackagesSubscription = atom.config.observe 'core.disabledPackages', =>
 			@packagesChanged = true
 
 			if @settingsView and @settingsView.is ':visible'
