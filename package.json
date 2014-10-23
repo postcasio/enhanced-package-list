@@ -6,7 +6,10 @@
   "repository": "https://github.com/postcasio/enhanced-package-list",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.139.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "fuzzaldrin": "^2.1.0",
+    "underscore-plus": "^1.6.1"
+  }
 }
