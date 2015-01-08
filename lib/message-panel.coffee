@@ -4,6 +4,7 @@ class MessagePanel extends HTMLElement
 		btn = document.createElement 'button'
 		btn.textContent = 'Close'
 		btn.classList.add 'btn', 'btn-sm', 'pull-right'
+		btn.addEventListener 'click', => @destroy()
 		@appendChild btn
 
 	attach: ->
