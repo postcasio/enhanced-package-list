@@ -32,7 +32,7 @@ module.exports =
 			message = new MessagePanel()
 			message.initialize 'The enhanced-package-list package is not compatible with Atom >= 0.167.0 and has been disabled.'
 			message.attach()
-			process.nextTick ->
+			atom.packages.onDidActivateAll ->
 				atom.packages.disablePackage('enhanced-package-list')
 			return
 
