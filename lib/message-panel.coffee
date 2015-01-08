@@ -3,7 +3,7 @@ class MessagePanel extends HTMLElement
 		@textContent = message
 		btn = document.createElement 'button'
 		btn.textContent = 'Close'
-		btn.classList.add 'btn', 'pull-right'
+		btn.classList.add 'btn btn-sm', 'pull-right'
 		@appendChild btn
 
 	attach: ->
