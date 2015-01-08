@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "fuzzaldrin": "^2.1.0",
-    "underscore-plus": "^1.6.1"
+    "underscore-plus": "^1.6.1",
+    "semver": "^4.2.0"
   }
 }
